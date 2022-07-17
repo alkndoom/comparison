@@ -12,7 +12,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Giriş Ekranı"),
+        title: Text('Giriş Ekranı'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -23,7 +23,7 @@ class _GirisEkraniState extends State<GirisEkrani> {
             color: Colors.blueGrey,
             padding: EdgeInsets.all(9.0),
             child: FittedBox(
-              child: Text("Giriş Ekranı"),
+              child: Text('Giriş Ekranı'),
             ),
           ),
         ),

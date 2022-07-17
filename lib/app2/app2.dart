@@ -1,4 +1,4 @@
-import 'package:comparison/app2/wrapper.dart';
+import 'package:comparison/app2/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 
 class DummyInfo {

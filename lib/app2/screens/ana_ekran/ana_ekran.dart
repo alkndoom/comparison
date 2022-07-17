@@ -12,7 +12,7 @@ class _AnaEkranState extends State<AnaEkran> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ana Ekran"),
+        title: Text('Ana Ekran'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -23,7 +23,7 @@ class _AnaEkranState extends State<AnaEkran> {
             color: Colors.blueGrey,
             padding: EdgeInsets.all(9.0),
             child: FittedBox(
-              child: Text("Ana Ekran"),
+              child: Text('Ana Ekran'),
             ),
           ),
         ),
