@@ -1,23 +1,5 @@
 import 'package:flutter/material.dart';
 
-class DummyInfo {
-  static List intList = Iterable<int>.generate(15).toList();
-  static List alphabetList = "abcdefghijklmnopqrstuvwxyz".split('');
-}
-
-class App2 extends StatelessWidget {
-  const App2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
-      home: const GirisEkrani(),
-    );
-  }
-}
-
 class GirisEkrani extends StatefulWidget {
   const GirisEkrani({Key? key}) : super(key: key);
 
@@ -36,9 +18,10 @@ class _GirisEkraniState extends State<GirisEkrani> {
       body: SafeArea(
         child: Center(
           child: Container(
-            width: 100,
+            width: 150,
             height: 100,
             color: Colors.blueGrey,
+            padding: EdgeInsets.all(9.0),
             child: FittedBox(
               child: Text("Giriş Ekranı"),
             ),
