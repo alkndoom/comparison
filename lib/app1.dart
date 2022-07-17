@@ -2,34 +2,20 @@ import 'package:flutter/material.dart';
 
 class DummyInfo {
   static List intList = Iterable<int>.generate(15).toList();
-  static List alphabetList = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z"
-  ];
+  static List alphabetList = "abcdefghijklmnopqrstuvwxyz".split('');
+}
+
+class App1 extends StatelessWidget {
+  const App1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: const Listeci(),
+    );
+  }
 }
 
 class Listeci extends StatefulWidget {
