@@ -62,13 +62,20 @@ class _ListeciState extends State<Listeci> {
     });
   }
 
+  void goToPage(String item) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Sayfa(item)),
+    );
+  }
+
   //########################################
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Listeci"),
+        title: const Text("Listeci"),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -80,8 +87,8 @@ class _ListeciState extends State<Listeci> {
               leading: CircleAvatar(
                 backgroundColor: Colors.blueGrey,
                 child: Text(
-                  "${item.toUpperCase()}",
-                  style: TextStyle(
+                  item.toUpperCase(),
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -94,15 +101,52 @@ class _ListeciState extends State<Listeci> {
                 },
                 splashRadius: 20,
                 icon: selections.contains(item)
-                    ? Icon(Icons.favorite)
-                    : Icon(Icons.favorite_border),
+                    ? const Icon(Icons.favorite)
+                    : const Icon(Icons.favorite_border),
               ),
               onTap: () {
-                selectTile(item);
+                goToPage(item);
               },
-              title: Text("$item"),
+              title: Text(item),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class Sayfa extends StatelessWidget {
+  final String item;
+
+  const Sayfa(this.item, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          item.toUpperCase(),
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+      ),
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.blueGrey,
+          ),
         ),
       ),
     );
