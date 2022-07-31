@@ -53,11 +53,9 @@ class _OverlayButtongyState extends State<OverlayButtongy> {
   void hideOverlay() {
     entry?.remove();
     entry = null;
-    isMenuOpen = !isMenuOpen;
   }
 
   void showOverlay() {
-    final overlay = Overlay.of(context)!;
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
 
@@ -74,15 +72,13 @@ class _OverlayButtongyState extends State<OverlayButtongy> {
       ),
     );
 
-    overlay.insert(entry!);
-
-    isMenuOpen = !isMenuOpen;
+    Overlay.of(context)!.insert(entry!);
   }
 
   //########################################
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buttongyContext) {
     return CompositedTransformTarget(
       link: layerLink,
       child: InkWell(
@@ -93,6 +89,7 @@ class _OverlayButtongyState extends State<OverlayButtongy> {
           } else {
             hideOverlay();
           }
+          isMenuOpen = !isMenuOpen;
         },
         child: Ink(
           width: 40,
