@@ -27,7 +27,7 @@ class _App5State extends State<App5> {
       theme: ThemeData.dark(),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(audioPlayer: AudioPlayer()),
+        '/': (context) => const HomePage(),
         '/music_screen': (context) => const MusicScreen(),
         '/music_options': (context) => const MusicOptions(),
         '/discover': (context) => const Discover(),

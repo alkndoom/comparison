@@ -1,88 +1,26 @@
 import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
-import 'package:comparison/app5/music_data.dart';
 import 'package:comparison/app5/components/custom_bottom_navigation_bar.dart';
 import 'package:comparison/app5/components/custom_icon_button.dart';
 import 'package:comparison/app5/components/dismissable.dart';
 import 'package:comparison/app5/components/main_page_row.dart';
 import 'package:comparison/app5/components/mini_music_player.dart';
+import 'package:comparison/app5/music_data.dart';
 import 'package:comparison/app5/screens/home_page/home_page_data.dart';
 import 'package:comparison/app5/sizes.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  final AudioPlayer audioPlayer;
-
-  const HomePage({
-    Key? key,
-    required this.audioPlayer,
-  }) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  //########################################
-  @override
-  void initState() {
-    super.initState();
-    setAudio(playlist[queueIndex].musicUrl);
-    initializeAudioPlayer();
-    pageController = PageController();
-    scrollController = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    disposeAudioPlayer();
-    pageController.dispose();
-    scrollController.dispose();
-    super.dispose();
-  }
-  //########################################
-
-  AudioPlayer get player => widget.audioPlayer;
+class CustomAudioPlayer {
+  AudioPlayer player = AudioPlayer();
   PlayerState playerState = PlayerState.paused;
-
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-  bool get isPlaying => playerState == PlayerState.playing;
   bool isShuffled = false;
   bool isLooped = false;
   bool isRecreated = false;
   int queueIndex = 0;
   List<MusicData> playlist = [...queue];
 
-  StreamSubscription? durationSubscription;
-  StreamSubscription? positionSubscription;
-  StreamSubscription? playerCompleteSubscription;
-  StreamSubscription? playerStateChangeSubscription;
-
-
-
-  Future setAudio(String music) async {
-    try {
-      await player.setSource(AssetSource(music));
-    } catch (e) {
-      print('\n\n####### $e #######\n\n');
-      return e.toString();
-    }
-    return 'No Error';
-  }
-
-  Future<void> resume() async {
-    await player.resume();
-    setState(() => playerState = PlayerState.playing);
-  }
-
-  Future<void> pause() async {
-    await player.pause();
-    setState(() => playerState = PlayerState.paused);
-  }
-
-
-  void recreatePlaylist() => setState(() {
+  void recreatePlaylist() {
     MusicData currentElement = playlist.removeAt(queueIndex);
     if (isShuffled) {
       playlist.shuffle();
@@ -93,123 +31,32 @@ class _HomePageState extends State<HomePage> {
       queueIndex = playlist.indexOf(currentElement);
     }
     isRecreated = true;
-    pageController.jumpToPage(queueIndex);
-  });
+  }
+}
 
-  void initializeAudioPlayer() {
-    playerCompleteSubscription = player.onPlayerComplete.listen((event) => setState(() async {
-      position = Duration.zero;
-      if (queueIndex != playlist.length - 1) {
-        queueIndex += 1;
-        pageController.jumpToPage(queueIndex);
-        await setAudio(playlist[queueIndex].musicUrl);
-        resume();
-      } else {
-        if (isLooped) {
-          queueIndex = 0;
-          pageController.jumpToPage(queueIndex);
-          await setAudio(playlist[queueIndex].musicUrl);
-          resume();
-        } else {
-          pause();
-        }
-      }
-    }));
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-    playerStateChangeSubscription = player.onPlayerStateChanged.listen((state) => setState(() {
-      print('STATE: $state');
-    }));
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
-    durationSubscription = player.onDurationChanged.listen((newDuration) => setState(() {
-      duration = newDuration;
-    }));
-
-    positionSubscription =  player.onPositionChanged.listen((newPosition) => setState(() {
-      position = newPosition;
-    }));
+class _HomePageState extends State<HomePage> {
+  //########################################
+  @override
+  void initState() {
+    super.initState();
+    customAudioPlayer = CustomAudioPlayer();
   }
 
-  void disposeAudioPlayer() {
-    durationSubscription?.cancel();
-    positionSubscription?.cancel();
-    playerCompleteSubscription?.cancel();
-    playerStateChangeSubscription?.cancel();
+  @override
+  void dispose() {
+    super.dispose();
   }
 
+  //########################################
 
-  List<Widget> widgetsToRender = [
-    Padding(
-      padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
-      child: MainPageRow(
-        height: Sizes.mainPageRowSlideHeightFirst,
-        spaceBetweenTextAndRow: Sizes.mainPageRowSpaceBetweenTextAndRowFirst,
-        titlePadding: Sizes.mainPageRowTitlePaddingFirst,
-        whiteSpace: Sizes.mainPageRowWhiteSpaceFirst,
-        tag: 'Recently played',
-        title: const Text(
-          'Recently played',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: Sizes.mainPageRowTextSizeFirst,
-          ),
-        ),
-        actions: [
-          CustomIconButton(
-            iconData: Icons.notifications_none,
-            onPressed: () {},
-          ),
-          const SizedBox(width: Sizes.mainPageRowActionsSize / 2),
-          CustomIconButton(
-            iconData: Icons.restore,
-            onPressed: () {},
-          ),
-          const SizedBox(width: Sizes.mainPageRowActionsSize / 2),
-          CustomIconButton(
-            iconData: Icons.settings_outlined,
-            onPressed: () {},
-          ),
-        ],
-        children: recentlyPlayed
-            .map((r) => MainPageRowItemCard(
-                  coverSize: Sizes.rowItemCardCoverSizeFirst,
-                  spaceBetweenCards: Sizes.rowItemCardSpaceBetweenCardsFirst,
-                  spaceBetweenTextAndCover: Sizes.rowItemCardSpaceBetweenTextAndCoverFirst,
-                  centerText: r['centerText'],
-                  text: r['text'],
-                  textStyle: const TextStyle(
-                    fontSize: Sizes.rowItemCardTextSizeFirst,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: Sizes.rowItemCardSpaceBetweenTextLinesFirst,
-                  ),
-                ))
-            .toList(),
-      ),
-    ),
-    ...mainPageData
-        .map((e) => Padding(
-              padding: const EdgeInsets.only(top: 25.0, bottom: 20.0),
-              child: MainPageRow(
-                tag: e['titleText'],
-                title: Text(
-                  e['titleText'],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.mainPageRowTextSize,
-                  ),
-                ),
-                children: e['children']
-                    .map(
-                      (r) => MainPageRowItemCard(
-                        centerText: r['centerText'],
-                        text: r['text'],
-                      ),
-                    )
-                    .toList(),
-              ),
-            ))
-        .toList(),
-  ];
+  late CustomAudioPlayer customAudioPlayer;
 
   @override
   Widget build(BuildContext context) {
@@ -218,43 +65,98 @@ class _HomePageState extends State<HomePage> {
         return false;
       },
       child: MainPage(
-
-      );
+        playerData: customAudioPlayer,
+      ),
     );
   }
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  final CustomAudioPlayer playerData;
+
+  const MainPage({
+    Key? key,
+    required this.playerData,
+  }) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-
   //########################################
   @override
   void initState() {
     super.initState();
-    // setAudio(playlist[queueIndex].musicUrl);
-    // initializeAudioPlayer();
+    initializeAudioPlayer();
+
     pageController = PageController();
     scrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    // disposeAudioPlayer();
+    disposeAudioPlayer();
+
     pageController.dispose();
     scrollController.dispose();
+
     super.dispose();
   }
+
   //########################################
+
+  void initializeAudioPlayer() {
+    setAudio(music.musicUrl, playerData);
+
+    positionSubscription = playerData.player.onPositionChanged.listen((newPosition) => setState(() {
+          position = newPosition;
+        }));
+  }
+
+  void disposeAudioPlayer() {
+    positionSubscription?.cancel();
+  }
+
+  Future setAudio(String music, CustomAudioPlayer customAudioPlayer) async {
+    try {
+      await customAudioPlayer.player.setSource(AssetSource(music));
+    } catch (e) {
+      print('\n\n####### $e #######\n\n');
+      return e.toString();
+    }
+    return 'No Error';
+  }
+
+  Future<void> resume(CustomAudioPlayer customAudioPlayer) async {
+    await customAudioPlayer.player.resume();
+    setState(() => customAudioPlayer.playerState = PlayerState.playing);
+  }
+
+  Future<void> pause(CustomAudioPlayer customAudioPlayer) async {
+    await customAudioPlayer.player.pause();
+    setState(() => customAudioPlayer.playerState = PlayerState.paused);
+  }
+
+  //########################################
+
+  CustomAudioPlayer get playerData => widget.playerData;
+
+  List<MusicData> get playlist => playerData.playlist;
+
+  MusicData get music => playlist[playerData.queueIndex];
+
+  bool get isPlaying => playerData.playerState == PlayerState.playing;
+
+  Duration position = Duration.zero;
+
+  StreamSubscription? positionSubscription;
 
   late ScrollController scrollController;
   late PageController pageController;
   int bottomNavigationBarIndex = 0;
+
+  //########################################
 
   @override
   Widget build(BuildContext context) {
@@ -295,45 +197,42 @@ class _MainPageState extends State<MainPage> {
                   CustomIconButton(
                     iconData: Icons.computer,
                     iconSize: Sizes.miniMusicPlayerActionsSize,
-                    iconColor: isShuffled ? Colors.green : Colors.white,
+                    iconColor: playerData.isShuffled ? Colors.green : Colors.white,
                     width: 40.0,
                     height: 40.0,
                     onPressed: () => setState(() {
-                      isShuffled = !isShuffled;
-                      recreatePlaylist();
+                      playerData.isShuffled = !playerData.isShuffled;
+                      playerData.recreatePlaylist();
+                      pageController.jumpToPage(playerData.queueIndex);
                     }),
                   ),
                   CustomIconButton(
-                    iconData: playlist[queueIndex].isFavorited
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    iconColor: playlist[queueIndex].isFavorited
-                        ? Colors.greenAccent[400]
-                        : Colors.white,
+                    iconData: music.isFavorited ? Icons.favorite : Icons.favorite_border,
+                    iconColor: music.isFavorited ? Colors.greenAccent[400] : Colors.white,
                     iconSize: Sizes.miniMusicPlayerActionsSize,
                     width: 40.0,
                     height: 40.0,
-                    onPressed: () => playlist[queueIndex].isFavorited = !playlist[queueIndex].isFavorited,
+                    onPressed: () => setState(() => playerData.playlist[playerData.queueIndex]
+                        .isFavorited = !playerData.playlist[playerData.queueIndex].isFavorited),
                   ),
                   CustomIconButton(
                     iconData: isPlaying ? Icons.pause : Icons.play_arrow,
                     iconSize: Sizes.miniMusicPlayerActionsSize,
                     width: 40.0,
                     height: 40.0,
-                    onPressed: () => isPlaying ? pause() : resume(),
+                    onPressed: () => isPlaying ? pause(playerData) : resume(playerData),
                   ),
                 ],
                 onPageChanged: (index) async {
-                  if (isRecreated) {
-                    setState(() => isRecreated = false);
+                  if (playerData.isRecreated) {
+                    playerData.isRecreated = false;
                   } else {
-                    print(index);
                     setState(() {
-                      queueIndex = index;
+                      playerData.queueIndex = index;
                       position = Duration.zero;
                     });
-                    await setAudio(playlist[index].musicUrl);
-                    resume();
+                    await setAudio(music.musicUrl, playerData);
+                    resume(playerData);
                   }
                 },
               ),
@@ -345,35 +244,45 @@ class _MainPageState extends State<MainPage> {
                   iconColor: bottomNavigationBarIndex == 0 ? Colors.white : Colors.grey,
                   label: 'Home',
                   labelColor: bottomNavigationBarIndex == 0 ? Colors.white : Colors.grey,
-                  onPressed: () => bottomNavigationBarIndex != 0 ? setState(() => bottomNavigationBarIndex = 0) : null,
+                  onPressed: () => bottomNavigationBarIndex != 0
+                      ? setState(() => bottomNavigationBarIndex = 0)
+                      : null,
                 ),
                 CustomBottomNavigationBarItem(
                   iconData: Icons.my_location,
                   iconColor: bottomNavigationBarIndex == 1 ? Colors.white : Colors.grey,
                   label: 'Discover',
                   labelColor: bottomNavigationBarIndex == 1 ? Colors.white : Colors.grey,
-                  onPressed: () => bottomNavigationBarIndex != 1 ? setState(() => bottomNavigationBarIndex = 1) : null,
+                  onPressed: () => bottomNavigationBarIndex != 1
+                      ? setState(() => bottomNavigationBarIndex = 1)
+                      : null,
                 ),
                 CustomBottomNavigationBarItem(
                   iconData: Icons.search,
                   iconColor: bottomNavigationBarIndex == 2 ? Colors.white : Colors.grey,
                   label: 'Search',
                   labelColor: bottomNavigationBarIndex == 2 ? Colors.white : Colors.grey,
-                  onPressed: () => bottomNavigationBarIndex != 2 ? setState(() => bottomNavigationBarIndex = 2) : null,
+                  onPressed: () => bottomNavigationBarIndex != 2
+                      ? setState(() => bottomNavigationBarIndex = 2)
+                      : null,
                 ),
                 CustomBottomNavigationBarItem(
                   iconData: Icons.library_music_outlined,
                   iconColor: bottomNavigationBarIndex == 3 ? Colors.white : Colors.grey,
                   label: 'Library',
                   labelColor: bottomNavigationBarIndex == 3 ? Colors.white : Colors.grey,
-                  onPressed: () => bottomNavigationBarIndex != 3 ? setState(() => bottomNavigationBarIndex = 3) : null,
+                  onPressed: () => bottomNavigationBarIndex != 3
+                      ? setState(() => bottomNavigationBarIndex = 3)
+                      : null,
                 ),
                 CustomBottomNavigationBarItem(
                   iconData: Icons.airplane_ticket_outlined,
                   iconColor: bottomNavigationBarIndex == 4 ? Colors.white : Colors.grey,
                   label: 'Concerts',
                   labelColor: bottomNavigationBarIndex == 4 ? Colors.white : Colors.grey,
-                  onPressed: () => bottomNavigationBarIndex != 4 ? setState(() => bottomNavigationBarIndex = 4) : null,
+                  onPressed: () => bottomNavigationBarIndex != 4
+                      ? setState(() => bottomNavigationBarIndex = 4)
+                      : null,
                 ),
               ],
             ),
@@ -383,3 +292,77 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+List<Widget> widgetsToRender = [
+  Padding(
+    padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
+    child: MainPageRow(
+      height: Sizes.mainPageRowSlideHeightFirst,
+      spaceBetweenTextAndRow: Sizes.mainPageRowSpaceBetweenTextAndRowFirst,
+      titlePadding: Sizes.mainPageRowTitlePaddingFirst,
+      whiteSpace: Sizes.mainPageRowWhiteSpaceFirst,
+      tag: 'Recently played',
+      title: const Text(
+        'Recently played',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: Sizes.mainPageRowTextSizeFirst,
+        ),
+      ),
+      actions: [
+        CustomIconButton(
+          iconData: Icons.notifications_none,
+          onPressed: () {},
+        ),
+        const SizedBox(width: Sizes.mainPageRowActionsSize / 2),
+        CustomIconButton(
+          iconData: Icons.restore,
+          onPressed: () {},
+        ),
+        const SizedBox(width: Sizes.mainPageRowActionsSize / 2),
+        CustomIconButton(
+          iconData: Icons.settings_outlined,
+          onPressed: () {},
+        ),
+      ],
+      children: recentlyPlayed
+          .map((r) => MainPageRowItemCard(
+                coverSize: Sizes.rowItemCardCoverSizeFirst,
+                spaceBetweenCards: Sizes.rowItemCardSpaceBetweenCardsFirst,
+                spaceBetweenTextAndCover: Sizes.rowItemCardSpaceBetweenTextAndCoverFirst,
+                centerText: r['centerText'],
+                text: r['text'],
+                textStyle: const TextStyle(
+                  fontSize: Sizes.rowItemCardTextSizeFirst,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  height: Sizes.rowItemCardSpaceBetweenTextLinesFirst,
+                ),
+              ))
+          .toList(),
+    ),
+  ),
+  ...mainPageData
+      .map((e) => Padding(
+            padding: const EdgeInsets.only(top: 25.0, bottom: 20.0),
+            child: MainPageRow(
+              tag: e['titleText'],
+              title: Text(
+                e['titleText'],
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Sizes.mainPageRowTextSize,
+                ),
+              ),
+              children: e['children']
+                  .map(
+                    (r) => MainPageRowItemCard(
+                      centerText: r['centerText'],
+                      text: r['text'],
+                    ),
+                  )
+                  .toList(),
+            ),
+          ))
+      .toList(),
+];
