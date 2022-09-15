@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 
 class Library extends StatelessWidget {
-  const Library({Key? key}) : super(key: key);
+  final ScrollController scrollController;
+  final String? tag;
+
+  const Library({
+    Key? key,
+    required this.scrollController,
+    this.tag,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Library',
+        ),
+      ),
+    );
   }
 }

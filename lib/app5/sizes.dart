@@ -50,4 +50,12 @@ class Sizes {
   static const double bottomNavigationBarHeight = kBottomNavigationBarHeight;
   static const double bottomNavigationBarItemIconSize = 27.0;
   static const double bottomNavigationBarItemLabelSize = 9.0;
+
+//##############################################################################
+
+  static const double musicScreenCoverArtSize = 350.0;
+  static const double musicScreenCoverArtBottomSpace = 160.0;
+  static const double musicScreenItemsPadding = 30.0;
+  static const double musicScreenSliderPadding = 10.0;
+
 }

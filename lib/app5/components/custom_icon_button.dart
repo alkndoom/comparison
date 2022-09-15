@@ -6,11 +6,11 @@ class CustomIconButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? iconColor;
-  final double height;
-  final double width;
+  double height;
+  double width;
   final double iconSize;
 
-  const CustomIconButton({
+  CustomIconButton({
     Key? key,
     required this.iconData,
     required this.onPressed,
@@ -23,6 +23,12 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (iconSize > height) {
+      height = iconSize;
+    }
+    if (iconSize > width) {
+      width = iconSize;
+    }
     return GestureDetector(
       onTap: onPressed,
       child: Container(

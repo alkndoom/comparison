@@ -66,6 +66,7 @@ class _MainPageRowState extends State<MainPageRow> {
 
 class MainPageRowItemCard extends StatelessWidget {
   final String text;
+  final VoidCallback? onTap;
   final Color coverColor;
   final bool centerText;
   final double coverSize;
@@ -78,7 +79,8 @@ class MainPageRowItemCard extends StatelessWidget {
   const MainPageRowItemCard({
     Key? key,
     required this.text,
-    this.coverColor = const Color(0xFF454545),
+    required this.onTap,
+    this.coverColor = const Color(0xFF333333),
     this.coverSize = Sizes.rowItemCardCoverSize,
     this.textSize = Sizes.rowItemCardTextSize,
     this.spaceBetweenCards = Sizes.rowItemCardSpaceBetweenCards,
@@ -92,37 +94,46 @@ class MainPageRowItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: spaceBetweenCards / 2),
-      child: Container(
-        width: coverSize,
-        height: coverSize + spaceBetweenTextAndCover + 2 * spaceBetweenTextLines * textSize,
-        child: Column(
-          children: [
-            Container(
-              width: coverSize,
-              height: coverSize,
-              color: coverColor,
-            ),
-            SizedBox(height: spaceBetweenTextAndCover),
-            Row(
-              mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: Text(
-                    text,
-                    style: textStyle ??
-                        TextStyle(
-                          fontSize: textSize,
-                          color: Colors.grey,
-                          height: spaceBetweenTextLines,
-                        ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    textAlign: centerText ? TextAlign.center : TextAlign.start,
-                  ),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          color: Colors.transparent,
+          width: coverSize,
+          height: coverSize + spaceBetweenTextAndCover + 2 * spaceBetweenTextLines * textSize,
+          child: Column(
+            children: [
+              Container(
+                width: coverSize,
+                height: coverSize,
+                color: coverColor,
+                child: Icon(
+                  Icons.music_note,
+                  color: Colors.grey,
+                  size: coverSize / 3,
                 ),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: spaceBetweenTextAndCover),
+              Row(
+                mainAxisAlignment: centerText ? MainAxisAlignment.center : MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Text(
+                      text,
+                      style: textStyle ??
+                          TextStyle(
+                            fontSize: textSize,
+                            color: Colors.grey,
+                            height: spaceBetweenTextLines,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: centerText ? TextAlign.center : TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
