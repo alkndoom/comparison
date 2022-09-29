@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:comparison/app5/components/custom_icon_button.dart';
-import 'package:comparison/app5/providers/custom_audio_player_provider.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/custom_icon_button.dart';
+import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:palette_generator/palette_generator.dart';

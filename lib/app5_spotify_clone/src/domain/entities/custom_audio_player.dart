@@ -1,6 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:comparison/app5/music_data.dart';
-import 'package:flutter/material.dart';
+import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
 
 class CustomAudioPlayer {
   AudioPlayer player = AudioPlayer();
@@ -10,7 +9,6 @@ class CustomAudioPlayer {
   bool _isLooped = false;
   int _queueIndex = 0;
   int _pageIndex = 0;
-  PageController? _pageController;
   Duration _position = Duration.zero;
   Duration _duration = const Duration(milliseconds: 10);
   List<MusicData> _originalQueue = [];
@@ -84,8 +82,6 @@ class CustomAudioPlayer {
 
     await setAudio(_playlist[_pageIndex].musicUrl);
 
-    print('\n_pageIndex: $_pageIndex\n_queueIndex: $_queueIndex\n');
-
     _position = Duration.zero;
     resume();
   }
@@ -100,8 +96,6 @@ class CustomAudioPlayer {
 
     await setAudio(_playlist[_pageIndex].musicUrl);
 
-    print('\n_pageIndex: $_pageIndex\n_queueIndex: $_queueIndex\n');
-
     _position = Duration.zero;
     resume();
   }
@@ -115,8 +109,6 @@ class CustomAudioPlayer {
     await createPlaylist();
 
     await setAudio(_playlist[_pageIndex].musicUrl);
-
-    print('\n_pageIndex: $_pageIndex\n_queueIndex: $_queueIndex\n');
 
     _position = Duration.zero;
     resume();
@@ -157,11 +149,6 @@ class CustomAudioPlayer {
         _playlist = _queue.sublist(_queueIndex - 1, _queueIndex + 2);
       }
     }
-
-    for (int i = 0; i < _playlist.length; i++) {
-      print('\n${_playlist[i].name}\n');
-    }
-
     if (_playlist.length == 3) {
       _pageIndex = 1;
     } else if (_playlist.length == 2) {
@@ -170,20 +157,10 @@ class CustomAudioPlayer {
       } else if (_queueIndex == _queue.length - 1) {
         _pageIndex = 1;
       } else {
-        throw Exception('UNEXPECTED ERROR AT CREATE_PLAYLIST FUNCTION OF CUSTOM AUDIO PLAYER INSTANCE');
+        throw Exception('Unexpected error at createPlaylist method of CustomAudioPlayer instance: Type 1');
       }
     } else {
-      /// TODO: eğer ki playlist 3ten azsa ihtimaline bakılacak
-      print('İMDAAAAAAAAAAAAAT');
+      throw Exception('Unexpected error at createPlaylist method of CustomAudioPlayer instance: Type 2');
     }
-
-    //if (_pageController != null && _pageController!.hasClients == false) {
-    //  await Future.doWhile(() async {
-    //    await Future.delayed(const Duration(milliseconds: 10));
-    //    return !_pageController!.hasClients;
-    //  });
-    //}
-
-    //_pageController != null ? _pageController!.jumpToPage(_pageIndex) : null;
   }
 }

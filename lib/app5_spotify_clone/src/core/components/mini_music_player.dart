@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:comparison/app5/music_data.dart';
-import 'package:comparison/app5/providers/custom_audio_player_provider.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
+import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-typedef ValueChanged<T> = void Function(T value);
 
 class MiniMusicPlayer extends StatefulWidget {
   final List<MusicData> queue;

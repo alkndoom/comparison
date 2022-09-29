@@ -1,4 +1,4 @@
-import 'package:comparison/app5/music_data.dart';
+import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
 import 'package:flutter/material.dart';
 
 List mainPageData = [

@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:comparison/app5/custom_audio_player.dart';
-import 'package:comparison/app5/music_data.dart';
+import 'package:comparison/app5_spotify_clone/src/domain/entities/custom_audio_player.dart';
+import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
 import 'package:flutter/material.dart';
 
 class CustomAudioPlayerProvider extends CustomAudioPlayer with ChangeNotifier {

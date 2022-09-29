@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final double height;

@@ -1,9 +1,8 @@
-import 'package:comparison/app5/components/custom_icon_button.dart';
-import 'package:comparison/app5/components/main_page_row.dart';
-import 'package:comparison/app5/music_data.dart';
-import 'package:comparison/app5/providers/custom_audio_player_provider.dart';
-import 'package:comparison/app5/screens/home/home_data.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/custom_icon_button.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/main_page_row.dart';
+import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/home/home_data.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

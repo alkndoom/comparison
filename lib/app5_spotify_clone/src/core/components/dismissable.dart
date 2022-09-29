@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 
 class Dismissable extends StatefulWidget {
   final Widget child;

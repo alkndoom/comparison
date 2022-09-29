@@ -1,14 +1,14 @@
-import 'package:comparison/app5/components/custom_bottom_navigation_bar.dart';
-import 'package:comparison/app5/components/custom_icon_button.dart';
-import 'package:comparison/app5/components/dismissable.dart';
-import 'package:comparison/app5/components/mini_music_player.dart';
-import 'package:comparison/app5/providers/custom_audio_player_provider.dart';
-import 'package:comparison/app5/screens/custom_page_route.dart';
-import 'package:comparison/app5/screens/home/home.dart';
-import 'package:comparison/app5/screens/library/library.dart';
-import 'package:comparison/app5/screens/music_screen/music_screen.dart';
-import 'package:comparison/app5/screens/search/search.dart';
-import 'package:comparison/app5/sizes.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/custom_bottom_navigation_bar.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/custom_icon_button.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/dismissable.dart';
+import 'package:comparison/app5_spotify_clone/src/core/components/mini_music_player.dart';
+import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/custom_page_route.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/home/home.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/library/library.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/music_screen/music_screen.dart';
+import 'package:comparison/app5_spotify_clone/src/core/screens/search/search.dart';
+import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
