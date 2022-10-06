@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:comparison/app5_spotify_clone/src/core/components/custom_icon_button.dart';
-import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/view/components/custom_icon_button.dart';
+import 'package:comparison/app5_spotify_clone/view/providers/custom_audio_player_provider.dart';
 import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,4 @@
-import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
-import 'package:flutter/material.dart';
+import 'package:comparison/app5_spotify_clone/model/entities/music_data.dart';
 
 List mainPageData = [
   {'titleText': 'Uniquely yours', 'children': uniquelyYours},

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:comparison/app5_spotify_clone/src/domain/entities/music_data.dart';
-import 'package:comparison/app5_spotify_clone/src/core/providers/custom_audio_player_provider.dart';
+import 'package:comparison/app5_spotify_clone/model/entities/music_data.dart';
+import 'package:comparison/app5_spotify_clone/view/providers/custom_audio_player_provider.dart';
 import 'package:comparison/app5_spotify_clone/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
